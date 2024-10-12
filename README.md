@@ -1,58 +1,96 @@
+<h1>AI Expense Recommendation API with AWS Lambda, DynamoDB, and SES</h1>
 
-# Welcome to your CDK Python project!
+<p align="center">
+  <strong>Serverless AI-powered Expense Recommendation API</strong> built with <strong>AWS Lambda</strong>, <strong>DynamoDB</strong>, and <strong>SES</strong>, leveraging <strong>OpenAI</strong> for personalized financial insights.
+</p>
 
-This is a blank project for CDK development with Python.
+<h2>🛠️ Project Introduction</h2>
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+<p>
+  This project demonstrates how to create a serverless API that uses OpenAI to analyze user transaction data and provide personalized recommendations for optimizing expenses. The API is built with AWS Lambda, DynamoDB, and SES to ensure that it is secure, scalable, and fault-tolerant.
+</p>
 
-This project is set up like a standard Python project.  The initialization
-process also creates a virtualenv within this project, stored under the `.venv`
-directory.  To create the virtualenv it assumes that there is a `python3`
-(or `python` for Windows) executable in your path with access to the `venv`
-package. If for any reason the automatic creation of the virtualenv fails,
-you can create the virtualenv manually.
+<p>
+  The API processes transactions via a REST API endpoint, generates insights with OpenAI, and emails recommendations to the user via AWS SES.
+</p>
 
-To manually create a virtualenv on MacOS and Linux:
+<h2>🚀 Installation and Setup</h2>
 
-```
-$ python3 -m venv .venv
-```
+<h3>Prerequisites</h3>
+<ul>
+  <li>AWS Account with permissions for Lambda, DynamoDB, API Gateway, and SES.</li>
+  <li>Node.js and NPM installed locally.</li>
+  <li>Postman for API testing.</li>
+</ul>
 
-After the init process completes and the virtualenv is created, you can use the following
-step to activate your virtualenv.
+<h3>Steps</h3>
+<ol>
+  <li>Clone the repository:</li>
+  <pre><code>git clone https://github.com/your-username/ai-expense-recommendation-api.git && cd ai-expense-recommendation-api</code></pre>
+  
+  <li>Install dependencies:</li>
+  <pre><code>npm install</code></pre>
+  
+  <li>Deploy the stack using AWS CDK:</li>
+  <pre><code>cdk deploy</code></pre>
+  
+  <li>Set the required environment variables in your Lambda function:
+    <ul>
+      <li><code>DYNAMODB_TABLE</code>: Name of your DynamoDB table.</li>
+      <li><code>OPENAI_API_KEY</code>: OpenAI API key.</li>
+      <li><code>SES_EMAIL_SENDER</code>: Verified SES sender email.</li>
+      <li><code>AWS_REGION</code>: AWS region (e.g., <code>us-east-1</code>).</li>
+    </ul>
+  </li>
+</ol>
 
-```
-$ source .venv/bin/activate
-```
+<h2>🔥 How to Use the API</h2>
 
-If you are a Windows platform, you would activate the virtualenv like this:
+<h3>Testing the API with Postman</h3>
+<ol>
+  <li>Create a new <strong>POST</strong> request in Postman.</li>
+  <li>Use your API Gateway URL as the endpoint:</li>
+  <pre><code>https://&lt;api-id&gt;.execute-api.&lt;region&gt;.amazonaws.com/prod/recommendations</code></pre>
+  
+  <li>Add an API key header:
+    <pre><code>x-api-key: &lt;your-api-key&gt;</code></pre>
+  </li>
+  
+  <li>Add the following JSON body:
+    <pre><code>{
+      "transactions": [
+        { "date": "2024-09-01", "category": "Groceries", "amount": 150.00 },
+        { "date": "2024-09-05", "category": "Dining Out", "amount": 75.50 }
+      ]
+    }</code></pre>
+  </li>
+  
+  <li>Send the request and check for a successful response.</li>
+</ol>
 
-```
-% .venv\Scripts\activate.bat
-```
+<h3>Testing the API with cURL</h3>
+<pre><code>curl -X POST https://&lt;api-id&gt;.execute-api.&lt;region&gt;.amazonaws.com/prod/recommendations \
+-H "x-api-key: &lt;your-api-key&gt;" \
+-H "Content-Type: application/json" \
+-d '{
+  "transactions": [
+    { "date": "2024-09-01", "category": "Groceries", "amount": 150.00 },
+    { "date": "2024-09-05", "category": "Dining Out", "amount": 75.50 }
+  ]
+}'</code></pre>
 
-Once the virtualenv is activated, you can install the required dependencies.
+<h2>📊 Sample Request and Response</h2>
 
-```
-$ pip install -r requirements.txt
-```
+<h3>Sample Request (JSON):</h3>
+<pre><code>{
+  "transactions": [
+    { "date": "2024-09-01", "category": "Groceries", "amount": 150.00 },
+    { "date": "2024-09-05", "category": "Dining Out", "amount": 75.50 }
+  ]
+}</code></pre>
 
-At this point you can now synthesize the CloudFormation template for this code.
+<h3>Sample Response (JSON):</h3>
+<pre><code>{
+  "message": "Recommendations sent successfully"
+}</code></pre>
 
-```
-$ cdk synth
-```
-
-To add additional dependencies, for example other CDK libraries, just add
-them to your `setup.py` file and rerun the `pip install -r requirements.txt`
-command.
-
-## Useful commands
-
- * `cdk ls`          list all stacks in the app
- * `cdk synth`       emits the synthesized CloudFormation template
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk docs`        open CDK documentation
-
-Enjoy!
